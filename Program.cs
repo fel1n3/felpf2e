@@ -1,6 +1,8 @@
 ﻿using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
+using felpf2e.Models.Spells;
+using Newtonsoft.Json;
 
 namespace felpf2e
 {
@@ -8,6 +10,15 @@ namespace felpf2e
     {
         static void Main()
         {
+            
+            SpellData phantom_pain = JsonConvert.DeserializeObject<SpellData>(
+                File.ReadAllText(@"..\..\..\data\packs\data\spells.db\phantom-pain.json"));
+            
+
+            Console.WriteLine(phantom_pain.system.description.value);
+            
+            
+            
             MainAsync().GetAwaiter().GetResult();
         }
 
@@ -37,6 +48,7 @@ namespace felpf2e
         public async Task TestCommand(InteractionContext ctx, [Option("name", "name to test")] string? name = null)
         {
             var response = "nice test " + (name ?? "dude");
+
             await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource,
                 new DiscordInteractionResponseBuilder().WithContent(response));
         }
